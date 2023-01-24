@@ -7,15 +7,18 @@ import com.example.Library.entities.Reader;
 import com.example.Library.exceptions.LentBookException;
 import com.example.Library.exceptions.MultipleEntitiesException;
 import com.example.Library.exceptions.NoEntityException;
-import com.example.Library.isbnValidator.IsbnContext;
-import com.example.Library.isbnValidator.IsbnStrategy10;
-import com.example.Library.isbnValidator.IsbnStrategy13;
+import com.example.Library.validators.isbnValidator.IsbnContext;
+import com.example.Library.validators.isbnValidator.IsbnStrategy10;
+import com.example.Library.validators.isbnValidator.IsbnStrategy13;
 import com.example.Library.repos.BookRepo;
 import com.example.Library.repos.ReaderRepo;
+import com.example.Library.validators.peselValidator.PeselValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+
+import static com.example.Library.validators.isbnValidator.IsbnStrategy.countDigits;
 
 @Component
 public class Service {
@@ -23,15 +26,6 @@ public class Service {
     private BookRepo bookRepo;
     @Autowired
     private ReaderRepo readerRepo;
-
-    private int countDigits(String text) {
-        int cnt = 0;
-        for (int i = 0; i < text.length(); ++i) {
-            if (text.charAt(i) >= '0' && text.charAt(i) <= '9')
-                ++cnt;
-        }
-        return cnt;
-    }
 
     public void addBook(Book book)
             throws MultipleEntitiesException, IllegalArgumentException {
@@ -56,25 +50,11 @@ public class Service {
         bookRepo.save(book);
     }
 
-    private boolean isCorrectPESEL(String PESEL) {
-        if (PESEL.length() != 11)
-            return false;
-        int[] costs = new int[] {1, 3, 7, 9, 1, 3, 7, 9, 1, 3, 1};
-        int sum = 0;
-        for (int i = 0; i < PESEL.length(); ++i) {
-            char c = PESEL.charAt(i);
-            if (!(c >= '0' && c <= '9'))
-                return false;
-            sum += (c - '0') * costs[i];
-        }
-        return sum % 10 == 0;
-    }
-
     public void addReader(Reader reader)
             throws MultipleEntitiesException, IllegalArgumentException {
         if (readerRepo.findByPesel(reader.getPesel()).size() != 0)
             throw new MultipleEntitiesException("Multiple readers");
-        if (!isCorrectPESEL(reader.getPesel()))
+        if (!(new PeselValidator(reader.getPesel())).isPeselOk())
             throw new IllegalArgumentException("Illegal PESEL");
 
         readerRepo.save(reader);

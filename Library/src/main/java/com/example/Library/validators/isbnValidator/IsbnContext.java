@@ -1,4 +1,4 @@
-package com.example.Library.isbnValidator;
+package com.example.Library.validators.isbnValidator;
 
 public class IsbnContext {
     private IsbnStrategy isbnStrategy;
