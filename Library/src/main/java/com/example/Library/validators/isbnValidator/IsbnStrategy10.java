@@ -1,11 +1,13 @@
 package com.example.Library.validators.isbnValidator;
 
+import static com.example.Library.validators.isbnValidator.IsbnStrategy.countDigits;
+
 public class IsbnStrategy10 implements IsbnStrategy {
     @Override
     public boolean checkIsbn(String isbn) {
         if (isbn == null)
             throw new NullPointerException("Empty string");
-        if (IsbnStrategy.countDigits(isbn) != 10)
+        if (countDigits(isbn) != 10)
             throw new IllegalArgumentException("Wrong length of isbn");
         int sum = 0, realIndex = 0;
         for (int i = 0; i < isbn.length() - 1; ++i) {
