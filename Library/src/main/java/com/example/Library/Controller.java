@@ -1,6 +1,7 @@
 package com.example.Library;
 
 import com.example.Library.dtos.BookDto;
+import com.example.Library.dtos.LendBookDto;
 import com.example.Library.dtos.ReaderDto;
 import com.example.Library.entities.Book;
 import com.example.Library.entities.Reader;
@@ -24,14 +25,10 @@ public class Controller {
     private final ResponseEntity<Integer> OK = new ResponseEntity<Integer>(HttpStatus.OK);
 
 
-    @PostMapping("/book")
-    public ResponseEntity<Integer> addBook(@RequestParam String isbn,
-                                           @RequestParam String title,
-                                           @RequestParam String firstName,
-                                           @RequestParam String lastName,
-                                           @RequestParam Long numberOfPages) {
+    @RequestMapping(value = "/book", method = RequestMethod.POST)
+    public ResponseEntity<Integer> addBook(@RequestBody Book book) {
         try {
-            service.addBook(new Book(isbn, title, firstName, lastName, numberOfPages, null));
+            service.addBook(book);
         } catch (MultipleEntitiesException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return BAD_REQUEST;
@@ -39,12 +36,10 @@ public class Controller {
         return CREATED;
     }
 
-    @PostMapping("/reader")
-    public ResponseEntity<Integer> addReader(@RequestParam String pesel,
-                                             @RequestParam String firstName,
-                                             @RequestParam String lastName) {
+    @RequestMapping(value = "/reader", method = RequestMethod.POST)
+    public ResponseEntity<Integer> addReader(@RequestBody Reader reader) {
         try {
-            service.addReader(new Reader(pesel, firstName, lastName));
+            service.addReader(reader);
         } catch (MultipleEntitiesException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return BAD_REQUEST;
@@ -52,12 +47,10 @@ public class Controller {
         return CREATED;
     }
 
-    @PutMapping("/book")
-    public ResponseEntity<Integer> changeStateOfBook(@RequestParam String isbn,
-                                                     @RequestParam String pesel,
-                                                     @RequestParam Boolean lend) {
+    @RequestMapping(value = "/book", method = RequestMethod.PATCH)
+    public ResponseEntity<Integer> changeStateOfBook(@RequestBody LendBookDto lendBookDto) {
         try {
-            service.changeStateOfBook(isbn, pesel, lend);
+            service.changeStateOfBook(lendBookDto.getIsbn(), lendBookDto.getPesel(), lendBookDto.getLend());
         } catch (NoEntityException | LentBookException e) {
             System.out.println(e.getMessage());
             return BAD_REQUEST;
@@ -65,7 +58,7 @@ public class Controller {
         return OK;
     }
 
-    @GetMapping("/book")
+    @RequestMapping(value = "/book", method = RequestMethod.GET)
     public ResponseEntity<BookDto> getBook(@RequestParam String isbn) {
         try {
             return new ResponseEntity<BookDto>(service.getBook(isbn), HttpStatus.OK);
@@ -76,7 +69,7 @@ public class Controller {
         }
     }
 
-    @GetMapping("/reader")
+    @RequestMapping(value = "/reader", method = RequestMethod.GET)
     public ResponseEntity<ReaderDto> getReader(@RequestParam String pesel) {
         try {
             return new ResponseEntity<ReaderDto>(service.getReader(pesel), HttpStatus.OK);

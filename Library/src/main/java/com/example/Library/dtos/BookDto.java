@@ -5,7 +5,7 @@ import com.example.Library.entities.Book;
 public class BookDto {
     private String isbn;
     private String title;
-    private String  firstName, lastName;
+    private String firstName, lastName;
     private Long numberOfPages;
 
     public BookDto(Book b) {

@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 
 @Repository
-public interface BookRepo  extends CrudRepository<Book, Long> {
+public interface BookRepo extends CrudRepository<Book, Long> {
     @Transactional
     @Modifying
     @Query("UPDATE Book b SET b.whoHas = ?2 WHERE b.isbn = ?1")
