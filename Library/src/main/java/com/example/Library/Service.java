@@ -14,13 +14,12 @@ import com.example.Library.repos.BookRepo;
 import com.example.Library.repos.ReaderRepo;
 import com.example.Library.validators.peselValidator.PeselValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
 import static com.example.Library.validators.isbnValidator.IsbnStrategy.countDigits;
 
-@Component
+@org.springframework.stereotype.Service
 public class Service {
     @Autowired
     private BookRepo bookRepo;

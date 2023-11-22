@@ -1,10 +1,15 @@
 package com.example.Library.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Getter
+@Setter
 @Entity
 public class Reader {
     @Id
@@ -22,37 +27,5 @@ public class Reader {
         this.pesel = pesel;
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getPesel() {
-        return pesel;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setPesel(String pesel) {
-        this.pesel = pesel;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 }

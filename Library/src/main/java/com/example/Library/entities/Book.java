@@ -1,10 +1,15 @@
 package com.example.Library.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Getter
+@Setter
 @Entity
 public class Book {
     @Id
@@ -26,62 +31,6 @@ public class Book {
         this.firstName = firstName;
         this.lastName = lastName;
         this.numberOfPages = numberOfPages;
-        this.whoHas = whoHas;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Long getNumberOfPages() {
-        return numberOfPages;
-    }
-
-    public Long getWhoHas() {
-        return whoHas;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setNumberOfPages(Long numberOfPages) {
-        this.numberOfPages = numberOfPages;
-    }
-
-    public void setWhoHas(Long whoHas) {
         this.whoHas = whoHas;
     }
 }
